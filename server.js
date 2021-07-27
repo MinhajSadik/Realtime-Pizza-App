@@ -16,6 +16,7 @@ const { MongoClient } = require('mongodb');
 //   const collection = client.db("pizzaApp").collection("menus");
 //   console.log('data')
 // });
+
 const uri = "mongodb+srv://MinhajSadik:MongoDB1@cluster0.4y50m.mongodb.net/pizzaApp?retryWrites=true&w=majority";
 mongoose.connect(uri,{useNewUrlParser: true, useUnifiedTopology: true});
 
