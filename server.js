@@ -19,8 +19,8 @@ const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://MinhajSadik:MongoDB1@cluster0.4y50m.mongodb.net/pizzaApp?retryWrites=true&w=majority";
 mongoose.connect(uri,{useNewUrlParser: true, useUnifiedTopology: true});
 
-const db = mongoose.connection;
-db.once('open', () => {
+const connection = mongoose.connection;
+connection.once('open', () => {
   // we're connected!
   console.log('connected')
 });
