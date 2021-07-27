@@ -1,0 +1,33 @@
+{
+  "name": "realtime-pizza-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "MinhajSadik",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon Server.js",
+    "serve": "node server.js",
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "npm run development -- --watch",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.1",
+    "mongodb-core": "^3.2.7",
+    "mongoose": "^5.12.15"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.2.6",
+    "cross-env": "^7.0.3",
+    "laravel-mix": "^6.0.25",
+    "nodemon": "^2.0.7",
+    "postcss": "^8.3.5",
+    "resolve-url-loader": "^4.0.0",
+    "sass": "^1.35.1",
+    "sass-loader": "^12.1.0",
+    "tailwindcss": "^2.2.4"
+  }
+}
