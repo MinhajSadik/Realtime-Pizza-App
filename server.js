@@ -13,12 +13,12 @@ const { MongoClient } = require('mongodb');
 // const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 // client.connect(err => {
 //   const collection = client.db("pizzaApp").collection("menus");
-//   console.log('data')
+//   console.log('connected');
 // });
 
 const uri = "mongodb+srv://MinhajSadik:MongoDB1@cluster0.4y50m.mongodb.net/pizzaApp?retryWrites=true&w=majority";
 
-mongoose.connect(uri,{useNewUrlParser: true, useCreateIndex:true, useUnifiedTopology: true, useFindAndModify:true});
+mongoose.connect(uri,{useNewUrlParser: true,  useUnifiedTopology: true});
 const connection = mongoose.connection;
 connection.once('open', () => {
   // we're connected!
