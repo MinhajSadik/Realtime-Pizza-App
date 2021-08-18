@@ -10,4 +10,4 @@ const Schema = mongoose.Schema
     });
     
     
-module.exports = mongoose.model('Menu', menuSchema)
+module.exports = mongoose.model('Menu', menuSchema);

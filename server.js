@@ -18,19 +18,18 @@ const { MongoClient } = require('mongodb');
 
 const uri = "mongodb+srv://MinhajSadik:MongoDB1@cluster0.4y50m.mongodb.net/pizzaApp?retryWrites=true&w=majority";
 
-mongoose.connect(uri,{useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(uri,{useNewUrlParser: true, useCreateIndex:true, useUnifiedTopology: true, useFindAndModify:true});
 const connection = mongoose.connection;
-connection.on('error', console.error.bind(console, 'connection error:'));
 connection.once('open', () => {
   // we're connected!
-  console.log('connected')
+  console.log('Database Connected')
+}).catch(err => {
+  console.log('connection faild');
 });
 
 
 //Assets
 app.use(express.static('public'));
-
-
 
 // set template engine
 app.use(expressLayout);
