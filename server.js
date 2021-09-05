@@ -5,27 +5,12 @@ const path = require('path');
 const expressLayout = require('express-ejs-layouts');
 const PORT = process.env.PORT || 3000;
 const mongoose = require('mongoose');
-const { MongoClient } = require('mongodb');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
-
-
-// const uri = "mongodb+srv://MinhajSadik:MongoDB1@cluster0.4y50m.mongodb.net/pizzaApp?retryWrites=true&w=majority";
-// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-// client.connect(err => {
-//   const collection = client.db("pizzaApp").collection("menus");
-//   console.log('connected');
-// });
-
-const uri = "mongodb+srv://MinhajSadik:MongoDB1@cluster0.4y50m.mongodb.net/pizzaApp?retryWrites=true&w=majority";
-
-mongoose.connect(uri,{useNewUrlParser: true,  useUnifiedTopology: true});
-const connection = mongoose.connection;
-connection.once('open', () => {
-  // we're connected!
-  console.log('Database Connected')
-}).catch(err => {
-  console.log('connection faild');
-});
+app.use(cors());
+app.use(bodyParser.json({extended: true}));
+app.use(bodyParser.urlencoded({extended: true}));
 
 
 //Assets
@@ -40,8 +25,13 @@ app.set('view engine', 'ejs')
 require('./routes/web')(app);
 
 
+const uri = "mongodb+srv://Realtime-Pizza-App:realtime-pizza-app@cluster0.4y50m.mongodb.net/pizzaApp?retryWrites=true&w=majority";
 
-app.listen(PORT, () => {
-    console.log(`Listing on Port ${PORT}`);
-})
+mongoose.connect(uri,{useNewUrlParser: true,  useUnifiedTopology: true})
+.then(()=> app.listen(PORT, () => console.log(`Listing on Port ${PORT}`)))
+.catch((error) => console.log(error.message));
+
+mongoose.set('useFindAndModify', false);
+
+
 
