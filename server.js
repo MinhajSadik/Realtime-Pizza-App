@@ -1,37 +1,69 @@
-const express = require('express');
+require("dotenv").config();
+const express = require("express");
 const app = express();
-const ejs = require('ejs');
-const path = require('path');
-const expressLayout = require('express-ejs-layouts');
+const ejs = require("ejs");
+const path = require("path");
+const expressLayout = require("express-ejs-layouts");
 const PORT = process.env.PORT || 3000;
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+const mongoose = require("mongoose");
+const session = require("express-session");
+const flash = require("express-flash");
+const MongoDbStore = require("connect-mongo")(session);
 
-app.use(cors());
-app.use(bodyParser.json({extended: true}));
-app.use(bodyParser.urlencoded({extended: true}));
+//Database Connection
+const url = "mongodb://localhost:27017/pizza";
+mongoose.connect(url, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: true,
+});
 
+const connection = mongoose.connection;
+
+connection
+  .once("open", () => {
+    console.log("Database Connected...");
+  })
+  .catch((err) => {
+    console.log("Database Connection Faild...");
+  });
+
+//Session Store
+let mongoStore = new MongoDbStore({
+  mongooseConnection: connection,
+  collection: "sessions",
+});
+
+//Session Config
+app.use(
+  session({
+    secret: process.env.COOKIE_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: mongoStore,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 }, // for 24 hours
+    // cookie: { maxAge: 1000 * 10 }, //for 10 sec
+  })
+);
+
+app.use(flash());
 
 //Assets
-app.use(express.static('public'));
+app.use(express.static("public"));
+app.use(express.json());
+
+//Global Middleware
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+  next();
+});
 
 // set template engine
 app.use(expressLayout);
-app.set('views', path.join(__dirname, '/resources/views'));
-app.set('view engine', 'ejs')
+app.set("views", path.join(__dirname, "/resources/views"));
+app.set("view engine", "ejs");
 
+require("./routes/web")(app);
 
-require('./routes/web')(app);
-
-
-const uri = "mongodb+srv://Realtime-Pizza-App:realtime-pizza-app@cluster0.4y50m.mongodb.net/pizzaApp?retryWrites=true&w=majority";
-
-mongoose.connect(uri,{useNewUrlParser: true,  useUnifiedTopology: true})
-.then(()=> app.listen(PORT, () => console.log(`Listing on Port ${PORT}`)))
-.catch((error) => console.log(error.message));
-
-mongoose.set('useFindAndModify', false);
-
-
-
+app.listen(PORT, () => console.log(`Listing on Port ${PORT}`));
