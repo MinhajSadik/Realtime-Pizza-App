@@ -73,7 +73,7 @@ function authController() {
           return res.redirect("/register");
         });
 
-      console.log(req.body);
+      // console.log(req.body);
     },
   };
 }

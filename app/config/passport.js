@@ -16,6 +16,8 @@ function init(passport) {
         bcrypt
           .compare(password, user.password)
           .then((match) => {
+            console.log(user);
+
             if (match) {
               return done(null, user, { message: "Logged in succesfully" });
             }
@@ -37,8 +39,6 @@ function init(passport) {
       done(err, user);
     });
   });
-
-  //   req.user
 }
 
 module.exports = init;

@@ -7,13 +7,22 @@ const expressLayout = require("express-ejs-layouts");
 const PORT = process.env.PORT || 3000;
 const mongoose = require("mongoose");
 const session = require("express-session");
-
 const flash = require("express-flash");
-const MongoDbStore = require("connect-mongo")(session);
+const MongoDbStore = require("connect-mongo");
 const passport = require("passport");
+
+//Use Function Call
+app.use(flash());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// //cors & bodyparser
+// app.use(cors());
+// app.use(bodyParser.json());
 
 // Passport Config
 const passportInit = require("./app/config/passport");
+const bodyParser = require("body-parser");
 passportInit(passport);
 app.use(passport.initialize());
 app.use(passport.session());
@@ -37,11 +46,11 @@ connection
     console.log("Database Connection Faild...");
   });
 
-//Session Store
-let mongoStore = new MongoDbStore({
-  mongooseConnection: connection,
-  collection: "sessions",
-});
+// //Session Store
+// let mongoStore = new MongoDbStore({
+//   mongooseConnection: connection,
+//   collection: "sessions",
+// });
 
 //Session Config
 app.use(
@@ -49,18 +58,16 @@ app.use(
     secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: mongoStore,
+    store: MongoDbStore.create({
+      mongoUrl: process.env.MONGO_URL,
+    }),
     cookie: { maxAge: 1000 * 60 * 60 * 24 }, // for 24 hours
     // cookie: { maxAge: 1000 * 10 }, // for 10 sec
   })
 );
 
-app.use(flash());
-
 //Assets
 app.use(express.static("public"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
 //Global Middleware
 app.use((req, res, next) => {
