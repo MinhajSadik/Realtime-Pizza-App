@@ -10,26 +10,26 @@ const session = require("express-session");
 const flash = require("express-flash");
 const MongoDbStore = require("connect-mongo");
 const passport = require("passport");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 
 //Use Function Call
 app.use(flash());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// //cors & bodyparser
-// app.use(cors());
-// app.use(bodyParser.json());
+//cors & bodyparser
+app.use(cors());
+app.use(bodyParser.json());
 
 // Passport Config
 const passportInit = require("./app/config/passport");
-const bodyParser = require("body-parser");
 passportInit(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
 //Database Connection
-const url = "mongodb://localhost:27017/pizza";
-mongoose.connect(url, {
+mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
