@@ -1,4 +1,6 @@
 const Order = require("../../../models/order");
+const Noty = require("noty");
+
 function orderController() {
   return {
     //Orders Route
@@ -19,14 +21,21 @@ function orderController() {
       order
         .save()
         .then((order) => {
-          req.flash("success", "Order placed successfully");
-          res.redirect("/customer/orders");
+          new Noty({
+            type: "success",
+            text: "Order placed successfully",
+            timeout: 500,
+            progressBar: false,
+            layout: "topBottom",
+          }).show();
+          return res.redirect("/customer/orders");
         })
         .catch((err) => {
-          res.flash("error", "Something went wrong");
           res.redirect("/cart");
+          req.flash("error", "Something went wrong");
         });
     },
+
     //Custommer Orders Route
     async index(req, res) {
       const orders = await Order.find({ customerId: req.user._id });
