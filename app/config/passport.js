@@ -30,7 +30,7 @@ function init(passport) {
     )
   );
 
-  passport.deserializeUser((user, done) => {
+  passport.serializeUser((user, done) => {
     done(null, user._id);
   });
 

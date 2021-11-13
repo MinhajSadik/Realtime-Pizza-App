@@ -1,7 +1,7 @@
 {
   "name": "realtime-pizza-app",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "author": "MinhajSadik",
   "license": "MIT",
   "scripts": {
@@ -27,7 +27,7 @@
     "mongodb-core": "^3.2.7",
     "mongoose": "^5.12.15",
     "noty": "^3.2.0-beta-deprecated",
-    "passport": "^0.5.0",
+    "passport": "^0.4.1",
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
