@@ -48,7 +48,7 @@ function authController() {
       User.exists({ email: email }, (err, result) => {
         if (result) {
           req.flash("error", "Email Already Taken");
-          return res.redirect("/login");
+          return res.redirect("/register");
         }
       });
 
