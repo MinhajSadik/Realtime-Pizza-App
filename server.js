@@ -18,9 +18,9 @@ app.use(flash());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-//cors & bodyparser
-app.use(cors());
-app.use(bodyParser.json());
+// //cors & bodyparser
+// app.use(cors());
+// app.use(bodyParser.json({ urlencoded: false }));
 
 // Passport Config
 const passportInit = require("./app/config/passport");
@@ -31,9 +31,8 @@ app.use(passport.session());
 //Database Connection
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
-  useCreateIndex: true,
   useUnifiedTopology: true,
-  useFindAndModify: true,
+  useCreateIndex: true,
 });
 
 const connection = mongoose.connection;
@@ -56,8 +55,8 @@ connection
 app.use(
   session({
     secret: process.env.COOKIE_SECRET,
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     store: MongoDbStore.create({
       mongoUrl: process.env.MONGO_URL,
     }),
