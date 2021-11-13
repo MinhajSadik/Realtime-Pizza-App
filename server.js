@@ -22,12 +22,6 @@ app.use(express.urlencoded({ extended: false }));
 // app.use(cors());
 // app.use(bodyParser.json({ urlencoded: false }));
 
-// Passport Config
-const passportInit = require("./app/config/passport");
-passportInit(passport);
-app.use(passport.initialize());
-app.use(passport.session());
-
 //Database Connection
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
@@ -65,12 +59,19 @@ app.use(
   })
 );
 
+// Passport Config
+const passportInit = require("./app/config/passport");
+passportInit(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
 //Assets
 app.use(express.static("public"));
 
 //Global Middleware
 app.use((req, res, next) => {
   res.locals.session = req.session;
+  res.locals.user = req.user;
   next();
 });
 

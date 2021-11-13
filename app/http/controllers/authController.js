@@ -72,8 +72,11 @@ function authController() {
           req.flash("error", "Something Went Wrong");
           return res.redirect("/register");
         });
-
-      // console.log(req.body);
+    },
+    // console.log(req.body);
+    logout(req, res) {
+      req.logout();
+      return res.redirect("/login");
     },
   };
 }
