@@ -2,7 +2,7 @@ import axios from "axios";
 import moment from "moment";
 
 async function initAdmin() {
-  const orderTableBody = document.querySelector("#orderTableBody");
+  const orderTableBody = document.getElementById("orderTableBody");
   let orders = [];
   let markup;
 
@@ -33,8 +33,10 @@ async function initAdmin() {
   }
 
   function generateMarkup(orders) {
+    console.log("orders", orders);
     return orders
       .map((order) => {
+        console.log("order", order);
         return `
                 <tr>
                 <td class="border px-4 py-2 text-green-900">
@@ -71,11 +73,11 @@ async function initAdmin() {
                                 }>
                                     Delivered
                                 </option>
-                                <optio n value="completed" ${
+                                <option value="completed" ${
                                   order.status === "completed" ? "selected" : ""
                                 }>
                                     Completed
-                                </optio>
+                                </option>
                             </select>
                         </form>
                         <div
@@ -107,9 +109,9 @@ async function initAdmin() {
   //     text: "New order!",
   //     progressBar: false,
   //   }).show();
-  // orders.unshift(order);
-  // orderTableBody.innerHTML = "";
-  // orderTableBody.innerHTML = generateMarkup(orders);
+  //   orders.unshift(order);
+  //   orderTableBody.innerHTML = "";
+  //   orderTableBody.innerHTML = generateMarkup(orders);
   // });
 }
 

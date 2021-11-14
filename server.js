@@ -66,7 +66,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Assets
-app.use(express.static("public/"));
+app.use(express.static("public"));
 
 //Global Middleware
 app.use((req, res, next) => {
