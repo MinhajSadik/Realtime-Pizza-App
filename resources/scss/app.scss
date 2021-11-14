@@ -88,3 +88,12 @@ section.register {
   border-radius: 50px !important;
   padding-left: 8px !important;
 }
+
+a.link {
+  color: $primary;
+}
+
+section.status {
+  background: $secondary;
+  min-height: calc(100vh - 86px);
+}

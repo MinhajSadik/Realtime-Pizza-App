@@ -355,3 +355,12 @@ section.register a:hover {
   border-radius: 50px !important;
   padding-left: 8px !important;
 }
+
+a.link {
+  color: #FE5F1E;
+}
+
+section.status {
+  background: #F8F8F8;
+  min-height: calc(100vh - 86px);
+}

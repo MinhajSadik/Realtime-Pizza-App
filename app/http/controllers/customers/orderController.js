@@ -1,5 +1,6 @@
 const Order = require("../../../models/order");
 const Noty = require("noty");
+const moment = require("moment");
 
 function orderController() {
   return {
@@ -20,26 +21,25 @@ function orderController() {
 
       order
         .save()
-        .then((order) => {
-          new Noty({
-            type: "success",
-            text: "Order placed successfully",
-            timeout: 500,
-            progressBar: false,
-            layout: "topBottom",
-          }).show();
-          return res.redirect("/customer/orders");
+        .then((result) => {
+          req.flash("success", "Order placed successfully");
+          delete req.session.cart;
+          return res.redirect("customers/orders");
         })
         .catch((err) => {
-          res.redirect("/cart");
           req.flash("error", "Something went wrong");
+
+          res.redirect("/cart");
         });
     },
 
     //Custommer Orders Route
     async index(req, res) {
-      const orders = await Order.find({ customerId: req.user._id });
-      console.log(orders);
+      const orders = await Order.find({ customerId: req.user._id }, null, {
+        sort: { createdAt: -1 },
+      });
+      // console.log(orders);
+      res.render("customers/orders", { orders: orders, moment: moment });
     },
   };
 }
