@@ -1,12 +1,13 @@
 import axios from "axios";
 import moment from "moment";
+import Noty from "noty";
 
-async function initAdmin() {
-  const orderTableBody = document.getElementById("orderTableBody");
+export function initAdmin(socket) {
+  const orderTableBody = document.querySelector("#orderTableBody");
   let orders = [];
   let markup;
 
-  await axios
+  axios
     .get("/admin/orders", {
       headers: {
         "X-Requested-With": "XMLHttpRequest",
@@ -33,10 +34,8 @@ async function initAdmin() {
   }
 
   function generateMarkup(orders) {
-    console.log("orders", orders);
     return orders
       .map((order) => {
-        console.log("order", order);
         return `
                 <tr>
                 <td class="border px-4 py-2 text-green-900">
@@ -101,18 +100,16 @@ async function initAdmin() {
       })
       .join("");
   }
-  // // Socket
-  // socket.on("orderPlaced", (order) => {
-  //   new Noty({
-  //     type: "success",
-  //     timeout: 1000,
-  //     text: "New order!",
-  //     progressBar: false,
-  //   }).show();
-  //   orders.unshift(order);
-  //   orderTableBody.innerHTML = "";
-  //   orderTableBody.innerHTML = generateMarkup(orders);
-  // });
+  // Socket
+  socket.on("orderPlaced", (order) => {
+    new Noty({
+      type: "success",
+      timeout: 1000,
+      text: "New order!",
+      progressBar: false,
+    }).show();
+    orders.unshift(order);
+    orderTableBody.innerHTML = "";
+    orderTableBody.innerHTML = generateMarkup(orders);
+  });
 }
-
-export default initAdmin;
