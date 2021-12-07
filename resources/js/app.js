@@ -2,7 +2,6 @@ import axios from "axios";
 import moment from "moment";
 import Noty from "noty";
 import { initAdmin } from "./admin";
-import { initStripe } from "./stripe";
 
 let addToCart = document.querySelectorAll(".add-to-cart");
 let cartCounter = document.querySelector("#cartCounter");
@@ -44,6 +43,8 @@ if (alertMsg) {
   }, 2000);
 }
 
+initAdmin();
+
 // Change order status
 let statuses = document.querySelectorAll(".status_line");
 let hiddenInput = document.querySelector("#hiddenInput");
@@ -75,30 +76,30 @@ function updateStatus(order) {
 
 updateStatus(order);
 
-initStripe();
+// // initStripe();
 
-// Socket
-let socket = io();
+// // Socket
+// // let socket = io();
 
-// Join
-if (order) {
-  socket.emit("join", `order_${order._id}`);
-}
-let adminAreaPath = window.location.pathname;
-if (adminAreaPath.includes("admin")) {
-  initAdmin(socket);
-  socket.emit("join", "adminRoom");
-}
+// // Join
+// if (order) {
+//   socket.emit("join", `order_${order._id}`);
+// }
+// let adminAreaPath = window.location.pathname;
+// if (adminAreaPath.includes("admin")) {
+//   initAdmin(socket);
+//   socket.emit("join", "adminRoom");
+// }
 
-socket.on("orderUpdated", (data) => {
-  const updatedOrder = { ...order };
-  updatedOrder.updatedAt = moment().format();
-  updatedOrder.status = data.status;
-  updateStatus(updatedOrder);
-  new Noty({
-    type: "success",
-    timeout: 1000,
-    text: "Order updated",
-    progressBar: false,
-  }).show();
-});
+// socket.on("orderUpdated", (data) => {
+//   const updatedOrder = { ...order };
+//   updatedOrder.updatedAt = moment().format();
+//   updatedOrder.status = data.status;
+//   updateStatus(updatedOrder);
+//   new Noty({
+//     type: "success",
+//     timeout: 1000,
+//     text: "Order updated",
+//     progressBar: false,
+//   }).show();
+// });
